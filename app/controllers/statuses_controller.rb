@@ -40,7 +40,7 @@ class StatusesController < ApplicationController
   # PATCH/PUT /statuses/1
   # PATCH/PUT /statuses/1.json
   def update
-    # @status = current_user.statuses.find(status_params)
+    #@status = current_user.statuses.find(status_params)
     # if status_params && status_params.has_key?(:user_id)
     #   status_params.delete(:user_id) 
     # end
