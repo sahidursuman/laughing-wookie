@@ -6,7 +6,7 @@
 
 <% @statuses.each do |status| %>
 <div class = "status">
-  <b><%= status.user.full_name %></b>
+  <b><%= link_to status.user.full_name, profile_path(status.user) %></b>
   <p><%= status.content %></p>
   <div class = "meta">
     <%= link_to time_ago_in_words(status.created_at) + " ago", status %>
@@ -18,3 +18,4 @@
 </div>
 <% end %>
 
+<%#= link_to image_tag (status.user.gravatar_url), profile_path(status.user) %>
