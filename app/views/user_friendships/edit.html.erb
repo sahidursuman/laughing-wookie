@@ -2,14 +2,8 @@
 	<h1>Relationships You Need to Manage</h1>
 </div>
 
-<% if @user_friendship.requested? %>
-	<h3> Do you really want to be friends with <%= @user_friendship.user.first_name %>? You're probably cooler than them anyway ... 
-	</h3>
-<% end %>
+<h3><%= @user_friendship.sub_message %> </h3>
 
-<% if @user_friendship.accepted? %>
-	<h3> You are friends with <%= @user_friendship.user.first_name %></h3>
-<% end %>
 
 <div class="form-actions">
 	<% if @user_friendship.requested? %>
@@ -22,4 +16,4 @@
 		<%= submit_tag "Abolish Friendship", class: 'btn btn-danger' %>
 	<% end %>
 
-</div>	
+</div>
