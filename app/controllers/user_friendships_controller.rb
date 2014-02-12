@@ -28,7 +28,7 @@ class UserFriendshipsController < ApplicationController
 	end
 
 	def friendships_params
-      params.require(:user).permit(:user_id, :friend_id, :users, :friends)
+      params.require(:user).permit(:user_id, :friend_id, :users, :friends, :state)
     end
     #not sure if this params.require is necessary or if it's under user. just need somewhere for the .permit
 end
