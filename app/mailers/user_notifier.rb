@@ -8,7 +8,7 @@ class UserNotifier < ActionMailer::Base
   	@friend = user_friendship.friend
 
   	mail to: @friend.email,
-  		 subject: "#{@user.first_name} wants to be friends on Treebook :)"
+  		 subject: "#{@user} wants to be friends on Treebook :)"
   end
 
    def friend_request_accepted(user_friendship_id)
@@ -18,6 +18,7 @@ class UserNotifier < ActionMailer::Base
   	@friend = user_friendship.friend
 
   	mail to: @user.email,
-  		 subject: "#{@friend.first_name} has accepted your friend request on Treebook :)"
+  		 subject: "#{user_friendship.friend} has accepted your friend request on Treebook :)"
   end
 end
+

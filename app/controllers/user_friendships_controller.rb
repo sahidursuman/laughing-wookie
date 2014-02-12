@@ -4,6 +4,16 @@ class UserFriendshipsController < ApplicationController
 	def index
 		@user_friendships = current_user.user_friendships.all
 	end
+
+	def accept
+		@user_friendship = current_user.user_friendships.find(params[:id])
+		if @user_friendship.accept!
+			flash[:success] = "You are now friends with #{@user_friendship.user.first_name}!"
+		else
+			flash[:error] = "They think you're a creep."
+		end	
+		redirect_to user_friendships_path
+	end	
 		
 	def new
 		if params[:friend_id] #is this rails 4? 
@@ -11,7 +21,7 @@ class UserFriendshipsController < ApplicationController
 			#raise ActiveRecord::RecordNotFound if @friend.nil?
 			@user_friendship = current_user.user_friendships.new(friend: @friend)
 		else
-			flash[:error] = "Friend required."
+			flash[:error] = "Oh dear ... that person seems to have disappeared. The request failed."
 		end
 	
 	rescue ActiveRecord::RecordNotFound
@@ -21,18 +31,26 @@ class UserFriendshipsController < ApplicationController
 	def create
 		if params[:user_friendship] && params[:user_friendship].has_key?(:friend_id)
 			@friend = User.where(profile_name: params[:user_friendship][:friend_id]).first
-			@user_friendship = current_user.user_friendships.new(friend: @friend)
-			@user_friendship.save
-			flash[:success] = "You are now friends with #{@friend.full_name}."
+			@user_friendship = UserFriendship.request(@current_user, @friend)
+			if @user_friendship.new_record?
+				flash[:error] = "There was a problem creating that friend request."
+			else
+				flash[:success] = "Friend request sent."
+			end	
 			redirect_to profile_path(@friend)
 		else
-			flash[:error] = "Friend required"
+			flash[:error] = "Oh dear ... that person seems to have disappeared. The request failed."
 			redirect_to root_path
 		end
 	end
 
+	def edit
+		@user_friendship = current_user.user_friendships.find(params[:id])
+		@friend = @user_friendship.friend
+	end
+
 	def friendships_params
-      params.require(:user).permit(:user_id, :friend_id, :users, :friends, :state)
+      params.permit(:user_id, :friend_id, :users, :friends, :state, :first_name, :user_friendships)
     end
     #not sure if this params.require is necessary or if it's under user. just need somewhere for the .permit
 end
