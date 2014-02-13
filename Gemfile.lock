@@ -147,7 +147,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
-  draper
+  draper (~> 1.0)
   factory_girl_rails
   jbuilder (~> 1.2)
   jquery-rails

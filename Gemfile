@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'state_machine'
 
-gem 'draper'
+gem 'draper', '~> 1.0'
 
 gem 'js-routes'
 
