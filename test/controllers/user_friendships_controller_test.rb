@@ -255,4 +255,32 @@ class UserFriendshipsControllerTest < ActionController::TestCase
       assert_equal "Friendship destroyed.", flash[:success]
       end
     end  
+
+    context "#block" do
+      context "when not logged in" do
+        should "redirect to the login page" do
+          put :block, id: 1
+          assert_response :redirect
+          assert_redirected_to login_path
+        end  
+      end  
+
+      context "when logged in" do
+        setup do
+          @user_friendship = create(:pending_user_friendship, user: users(:jason))
+          sign_in users(:jason)
+          put :block, id: @user_friendship
+          @user_friendship.reload
+        end 
+
+        should "assign user friendship" do
+          assert assigns(:user_friendship)
+          assert_equal @user_friendship, assigns(:user_friendship)
+        end 
+
+        should "ensure friendship state is blocked" do
+          assert_equal 'blocked', @user_friendship.state
+        end  
+      end  
+    end  
 end
