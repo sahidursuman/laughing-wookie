@@ -5,12 +5,12 @@
 <%= link_to "Post a new status", new_status_path, class: "btn btn-success" %>
 
 <% @statuses.each do |status| %>
-<div class = "status">
+<div class="status">
   <div class="row">
-    <div class = "span1">
+    <div class="span1">
      <%= link_to image_tag(status.user.gravatar_url), profile_path(status.user) %>
     </div> 
-    <div class = "span7">
+    <div class="span7">
       <b><%= link_to status.user.full_name, profile_path(status.user) %></b> 
       <p><%= status.content %></p>
         <div class = "meta">
