@@ -1,7 +1,6 @@
 class UserFriendshipDecorator < Draper::Decorator
-  delegate_all
-
   decorates :user_friendship
+  delegate_all
 
   def friendship_state
   	model.state.titelize

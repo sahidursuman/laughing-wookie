@@ -12,6 +12,8 @@ class UserFriendshipsControllerTest < ActionController::TestCase
       setup do
         @friendship1 = create(:pending_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Pending', last_name: 'Friend'))
         @friendship2 = create(:accepted_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Active', last_name: 'Friend'))
+        @friendship3 = create(:requested_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Requested', last_name: 'Friend'))
+        @friendship3 = create(:blocked_by_jason)
 
         sign_in users(:jason)
         get :index
@@ -42,6 +44,62 @@ class UserFriendshipsControllerTest < ActionController::TestCase
         end 
       end  
 
+      context "blocked users" do
+        setup do
+          get :index, list: 'blocked'
+        end  
+
+        should "get the blocked friends index without error" do
+          assert_response :success
+        end 
+
+        should "not display active or pending friends' names" do
+          assert_no_match /Pending\ Friend/, response.body
+          assert_no_match /Active\ Friend/, response.body
+        end 
+
+        should "display blocked users' names" do
+          assert_match /Blocked\ Friend/, response.body
+        end 
+      end  
+
+      context "requested users" do
+        setup do
+          get :index, list: 'requested'
+        end  
+
+        should "get the requested friends index without error" do
+          assert_response :success
+        end 
+
+        should "not display active or pending friends' names" do
+          assert_no_match /Blocked\ Friend/, response.body
+          assert_no_match /Active\ Friend/, response.body
+        end 
+
+        should "display requested users' names" do
+          assert_match /Requested\ Friend/, response.body
+        end 
+      end  
+
+      context "accepted users" do
+        setup do
+          get :index, list: 'accepted'
+        end  
+
+        should "get the accepted users ndex without error" do
+          assert_response :success
+        end 
+
+        should "not display active or pending friends' names" do
+          assert_no_match /Pending\ Friend/, response.body
+          assert_no_match /Blocked\ Friend/, response.body
+        end 
+
+        should "display accepted users' names" do
+          assert_match /Accepted\ Friend/, response.body
+        end 
+      end  
     end 
   end
 

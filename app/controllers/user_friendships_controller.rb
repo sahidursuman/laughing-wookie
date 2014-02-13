@@ -3,7 +3,7 @@ class UserFriendshipsController < ApplicationController
 	respond_to :html, :json
 
 	def index
-		@user_friendships = current_user.user_friendships.all
+		@user_friendships = UserFriendshipDecorator.decorate_collection(friendship_association.all)
 		respond_with @user_friendships
 	end
 
@@ -82,7 +82,23 @@ class UserFriendshipsController < ApplicationController
 	end
 
 	def friendships_params
-      params.permit(:user_id, :friend_id, :user, :friend, :state, :first_name, :user_friendships, :full_name, :last_name)
+      params.require(user_friendship).permit(:user_id, :friend_id, :user, :friend, :state, :first_name, :user_friendship, :full_name, :last_name)
     end
     #not sure if this params.require is necessary or if it's under user. just need somewhere for the .permit
+
+    private
+    def friendship_association
+		case params[:list]
+    	when nil
+			current_user.user_friendships
+		when 'blocked'
+			current_user.blocked_user_friendships
+		when 'pending'
+			current_user.pending_user_friendships
+		when 'accepted'
+			current_user.accepted_user_friendships
+		when 'requested'
+			current_user.requested_user_friendships
+		end
+   	end
 end
