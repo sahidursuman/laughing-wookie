@@ -20,8 +20,8 @@
 		</div>
 		<div class="span7">
 			<strong>
-				<%#= link_to friend.full_name, profile_path(friendship.profile_name) %> 
-				<%= @friend %> </strong><br />
+				<%= link_to profile_path(friendship.friend.first_name) %> 
+				<%#= @friend %> </strong><br />
 				<% if friendship.pending? %>
 					<em>Friendship is pending.</em><%= link_to "Revoke request", edit_user_friendship_path(friendship.friend.profile_name) %>.
 				<% end %>
