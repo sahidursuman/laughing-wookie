@@ -43,6 +43,7 @@ end
 
 group :development, :test do
 	gem 'sqlite3'
+	gem 'log_buddy'
 end
 
 group :development do
