@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-# Use sqlite3 as the database for Active Record
-
 gem 'devise'
 
 gem 'simple_form'
@@ -35,6 +33,8 @@ gem 'state_machine'
 gem 'draper', '~> 1.0'
 
 gem 'js-routes'
+
+gem 'paperclip'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
