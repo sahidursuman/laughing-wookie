@@ -4,8 +4,9 @@ class StatusesController < ApplicationController
 
   # GET /statuses
   # GET /statuses.json
+
   def index
-    @statuses = Status.all
+    @statuses = Status.order('created_at desc').all
 
      respond_to do |format|
       format.html # new.html.erb
@@ -22,6 +23,12 @@ class StatusesController < ApplicationController
   # GET /statuses/new
   def new
     @status = Status.new
+    @status.build_document
+
+    respond_to do |format|
+      format.html #new.html.erb
+      format.json { render json: @status }
+    end
   end
 
   # GET /statuses/1/edit
@@ -49,11 +56,13 @@ class StatusesController < ApplicationController
   # PATCH/PUT /statuses/1.json
   def update
     @status = current_user.statuses.find(params[:id])
+    @document = @status.document
       if status_params && status_params.has_key?(:user_id)
         status_params.delete(:user_id) 
      end
     respond_to do |format|
-      if @status.update(status_params)
+      if @status.update(status_params) && 
+        @document && @document.update_attributes(status_params)
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
         format.json { head :no_content }
       else
@@ -79,8 +88,16 @@ class StatusesController < ApplicationController
       @status = Status.find(params[:id])
     end
 
+    def set_attachment
+      @attachment = @status.document
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
-      params.require(:status).permit(:content, :profile_name, :full_name, :user_id, :first_name, :last_name)
+      params.require(:status).permit(:content, :profile_name, :full_name, :user_id, :first_name, :last_name, :document_attributes, :attachment, :document, :attachment_file_name, :document_fields, :build_document, :remove_attachment)
+    end
+
+    def document_params
+      params.require(:attachment).permit(:document_attributes, :attachment, :document, :attachment_file_name, :document_fields, :build_document, :remove_attachment)
     end
 end

@@ -15,6 +15,7 @@
           <div class="span7">
             <b><%= link_to status.user.full_name, profile_path(status.user) %></b> 
             <p><%= status.content %></p>
+            <%= status_document_link(status) %>
               <div class = "meta">
                 <%= link_to time_ago_in_words(status.created_at) + " ago", status %>
                 <% if signed_in? && current_user == status.user %>
