@@ -61,8 +61,8 @@ class StatusesController < ApplicationController
         status_params.delete(:user_id) 
      end
     respond_to do |format|
-      if @status.update(status_params) && 
-        @document && @document.update_attributes(status_params)
+      if @status.update(document_update_params) && @document &&
+        @document.update_attributes(document_update_params) 
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,16 +88,16 @@ class StatusesController < ApplicationController
       @status = Status.find(params[:id])
     end
 
-    def set_attachment
-      @attachment = @status.document
+    def document_update_params
+     status_params.merge(document_params)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
-      params.require(:status).permit(:content, :profile_name, :full_name, :user_id, :first_name, :last_name, :document_attributes, :attachment, :document, :attachment_file_name, :document_fields, :build_document, :remove_attachment)
+      params.require(:status).permit(:content, :profile_name, :full_name, :user_id, :first_name, :last_name)
     end
 
     def document_params
-      params.require(:attachment).permit(:document_attributes, :attachment, :document, :attachment_file_name, :document_fields, :build_document, :remove_attachment)
+      params.require(:status).permit(:document_attributes, :attachment, :document, :attachment_file_name, :document_fields, :build_document, :remove_attachment)
     end
 end
