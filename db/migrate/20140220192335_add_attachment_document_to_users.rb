@@ -1,11 +1,11 @@
 class AddAttachmentDocumentToUsers < ActiveRecord::Migration
   def self.up
     change_table :users do |t|
-      t.attachment :document
+      add_attachment :document
     end
   end
 
   def self.down
-    drop_attached_file :users, :document
+    remove_attachment :users, :document
   end
 end
