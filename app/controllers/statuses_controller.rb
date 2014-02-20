@@ -60,9 +60,14 @@ class StatusesController < ApplicationController
       if status_params && status_params.has_key?(:user_id)
         status_params.delete(:user_id) 
      end
+
+     if params[:status][:document_attributes][:remove_attachment] == '1'
+      @status.document.attachment = nil
+    end
+
     respond_to do |format|
-      if @status.update(status_params) && @document &&
-        @document.update(status_params)
+      if @status.update(status_params) # && @document &&
+        # @document.update(status_params)
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
         format.json { head :no_content }
       else
