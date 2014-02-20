@@ -1,7 +1,7 @@
 class AddAttachmentDocumentToUsers < ActiveRecord::Migration
   def self.up
     change_table :users do |t|
-      add_attachment :document
+      t.attachment :document
     end
   end
 
