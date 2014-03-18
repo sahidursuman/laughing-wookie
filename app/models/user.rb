@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
+  require "open-uri"
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
@@ -46,6 +47,15 @@ class User < ActiveRecord::Base
     :large => "800x800>", :medium => "300x200>", :small => "260x180>", :thumb => "80x80#"
   }
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
+  def self.get_gravatars
+    all.each do |user|
+      if !user.avatar?
+        user.avatar = URI.parse(user.gravatar_url)
+        user.save
+      end
+    end
+  end
 
   def full_name
       first_name + " " + last_name
