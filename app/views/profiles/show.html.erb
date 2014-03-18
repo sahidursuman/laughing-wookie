@@ -1,6 +1,6 @@
-<div class="page-header">
+<%= page_header do %>
 	<h1><%= @user.full_name %></h1>
-</div>
+<% end %>
 
 <% if signed_in? %>
 	<div id="friend-status">

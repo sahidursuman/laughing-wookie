@@ -15,6 +15,11 @@ module ApplicationHelper
 		avatar_url = user.avatar? ? user.avatar.url(:thumb) : user.gravatar_url
 		link_to(image_tag(avatar_url, image_options), profile_path(user.profile_name))
 	end	
+
+	def page_header(&block)
+		content_tag(:div, capture(&block), class: 'page-header')
+	end
+
 	def flash_class(type)
 		case type
 		when :alert
