@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
                             with: /\A[a-zA-Z0-9_-]+\z/, 
                             message: 'Username must be at least 8 characters, with no spaces and no special characters.'
     }
-
+  has_many :albums
+  has_many :pictures
   has_many :statuses
   has_many :user_friendships
   has_many :friends, through: :user_friendships,

@@ -1,6 +1,4 @@
 Treebook::Application.routes.draw do
-  get "profiles/show"
-
   as :user do
     get '/register', to: 'devise/registrations#new', as: :register
     get '/login', to: 'devise/sessions#new', as: :login
@@ -25,6 +23,12 @@ Treebook::Application.routes.draw do
   resources :statuses
   get 'feed', to: 'statuses#index', as: :feed
   root to: 'statuses#index'
+
+  scope ":profile_name" do
+    resources :albums do
+      resources :pictures
+    end
+  end
 
   get '/:id', to: 'profiles#show', as: 'profile'
   # The priority is based upon order of creation: first created -> highest priority.
