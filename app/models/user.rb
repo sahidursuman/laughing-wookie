@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   has_many :accepted_friends, through: :accepted_user_friendships, source: :friend
 
   has_attached_file :avatar
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   
   def full_name
       first_name + " " + last_name

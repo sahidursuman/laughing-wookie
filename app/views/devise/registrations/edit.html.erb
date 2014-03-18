@@ -8,27 +8,34 @@
       <%= f.input :email %>
       <%= f.input :password %> <i>(leave blank if you don't want to change it)</i><br /><br />
       <%= f.input :password_confirmation %> 
-      <%= f.input :current_password %> <i>(we need your current password to confirm your changes)</i>
-     
     </fieldset>
 
     <fieldset>
       <legend>
         Profile Picture
       </legend>
-      <%#= document_fields.input :avatar, as: :file %>
       <%= f.input :avatar, as: :file %>
+      <% if f.object.avatar? %>
+      <%= image_tag f.object.avatar.url %>
+      <% end %>
     </fieldset>
-  <% end %>
+ 
+    <fieldset>
+      <legend>
+        Confirm Changes
+      </legend>
+       <%= f.input :current_password %> <i>(we need your current password to confirm your changes)</i>
+    </fieldset>
   <div>
 
    
+<div class="form-actions">
+  <%= f.submit "Update", class: 'btn btn-primary' %>
+  <%= link_to "Back", root_path, class: 'btn' %>
+</div>
+  <h4>
+  <p>Unhappy with your account? </p>
+  <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>
+</h4>
 
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
-
-<%= link_to "Back", :back %>
-
-
-
+<% end %>
