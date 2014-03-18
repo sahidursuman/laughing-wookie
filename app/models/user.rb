@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
                                       conditions: { state: 'accepted' }
   has_many :accepted_friends, through: :accepted_user_friendships, source: :friend
 
-  has_attached_file :attachment
+  has_attached_file :avatar
   
   def full_name
       first_name + " " + last_name
