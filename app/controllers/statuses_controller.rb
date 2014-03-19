@@ -57,23 +57,24 @@ class StatusesController < ApplicationController
   def update
     @status = current_user.statuses.find(params[:id])
     @document = @status.document
-      if status_params && status_params.has_key?(:user_id)
-        status_params.delete(:user_id) 
-     end
 
-     if params[:status][:document_attributes][:remove_attachment] == '1'
-      @status.document.attachment = nil
+    @status.transaction do 
+      @status.update_attributes(status_params)
+      @document.update_attributes(status_params) if @document
+      raise ActiveRecord::Rollback unless @status.valid? && @document.try(:valid?)
     end
 
     respond_to do |format|
-      if @status.update(status_params) # && @document &&
-        # @document.update(status_params)
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
         format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @status.errors, status: :unprocessable_entity }
       end
+   rescue ActiveRecord::Rollback
+    respond_to do |format|
+        format.html do     
+          flash.now[:error] = "Update failed"
+          render action: 'edit' 
+      end
+        format.json { render json: @status.errors, status: :unprocessable_entity }
     end
   end
 
