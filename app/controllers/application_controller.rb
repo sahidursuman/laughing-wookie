@@ -20,5 +20,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  
+  private
+  def render_permission_error
+    render file: 'public/permission_error', status: :error, layout: false
+  end
 end

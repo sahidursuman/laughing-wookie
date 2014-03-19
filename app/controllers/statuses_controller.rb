@@ -2,6 +2,7 @@ class StatusesController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :edit, :update, :destroy] 
   before_action :set_status, only: [:show, :edit, :update, :destroy]
 
+  rescue_from ActiveModel::MassAssignmentSecurity::Error, with: :render_permission_error
   # GET /statuses
   # GET /statuses.json
 
