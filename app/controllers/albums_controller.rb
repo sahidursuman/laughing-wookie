@@ -6,7 +6,7 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   def index
-    @albums = user.albums.all
+    @albums = current_user.albums.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,7 +40,7 @@ class AlbumsController < ApplicationController
   # POST /albums
   # POST /albums.json
   def create
-    @album = current_user.albums.new(params[:album])
+    @album = current_user.albums.new(album_params)
 
     respond_to do |format|
       if @album.save
@@ -97,6 +97,6 @@ class AlbumsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def album_params
-      params.require(:album).permit(:user_id, :title)
+      params.require(:album).permit(:user_id, :title, :pictures, :current_user, :album, :profile_name, :user, :first_name, :last_name, :albums_thumbnail)
     end
 end
