@@ -1,20 +1,39 @@
 class PicturesController < ApplicationController
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_filter :find_user
+  before_filter :find_album
 
   # GET /pictures
   # GET /pictures.json
   def index
-    @pictures = Picture.all
+    @pictures = @album.pictures.all? { |e|  }
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @pictures }
+    end
   end
 
   # GET /pictures/1
   # GET /pictures/1.json
   def show
+    @picture = Picture.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @picture }
+    end
   end
 
   # GET /pictures/new
   def new
-    @picture = Picture.new
+    @picture = @album.pictures.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @picture }
+    end
   end
 
   # GET /pictures/1/edit
@@ -24,7 +43,7 @@ class PicturesController < ApplicationController
   # POST /pictures
   # POST /pictures.json
   def create
-    @picture = Picture.new(picture_params)
+    @picture = @album.pictures.new(picture_params)
 
     respond_to do |format|
       if @picture.save
@@ -61,8 +80,28 @@ class PicturesController < ApplicationController
     end
   end
 
+  def url_options
+    { profile_name: params[:profile_name] }.merge(super)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
+    def find_user
+      @user = User.find_by_profile_name(params[:profile_name])
+    end
+
+    def find_album
+      if signed_in?
+        @album = current_user.albums.find(params[:album_id])
+      else
+        @album = @user.albums.find(params[:album_id])
+      end 
+    end
+
+    def find_picture
+      @picture = @album.pictures.find(params[:picture_id])
+    end
+
     def set_picture
       @picture = Picture.find(params[:id])
     end
