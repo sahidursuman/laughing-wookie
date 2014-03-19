@@ -10,14 +10,16 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 
     context "when logged in" do
       setup do
-        @friendship1 = create(:pending_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Pending', last_name: 'Friend'))
-        @friendship2 = create(:accepted_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Active', last_name: 'Friend'))
-        @friendship3 = create(:requested_user_friendship, user: users(:jason), friend: create(:user, first_name: 'Requested', last_name: 'Friend'))
-        @friendship3 = create(:blocked_by_jason)
-
+        @friend = create(:user)
+        @user_friendship = create(:pending_user_friendship, user: users(:jason), friend: users(:jim))
+        create(:pending_user_friendship, friend: users(:jason), user: @friend)
         sign_in users(:jason)
-        get :index
       end 
+
+      def do_put
+        put :accept, id: @user_friendship
+        @user_friendship.reload
+      end
 
       should "get the index page without error" do
         assert_response :success
@@ -240,17 +242,26 @@ class UserFriendshipsControllerTest < ActionController::TestCase
       end  
 
       should "assign a user friendship" do
+        do_put
         assert assigns(:user_friendship)
         assert_equal @user_friendship, assigns(:user_friendship)
       end  
 
       should "update the state to accepted" do
+        do_put
         assert_equal 'accepted', @user_friendship.state
       end 
 
       should "have a flash success message" do
+        do_put
         assert flash[:success]
         assert_equal "Friend request sent.", flash[:success]
+      end
+
+      should "create activity when friendship created" do
+        assert_difference "Activity.count" do
+          do_put
+        end
       end
     end 
 

@@ -52,6 +52,7 @@ class PicturesController < ApplicationController
 
     respond_to do |format|
       if @picture.save
+        current_user.create_activity @picture, 'created'
         format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully created.' }
         format.json { render action: 'show', status: :created, location: @picture }
       else
@@ -66,6 +67,7 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update(picture_params)
+        current_user.create_activity @picture, 'updated'
         format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,6 +82,7 @@ class PicturesController < ApplicationController
   def destroy
     @picture.destroy
     respond_to do |format|
+      current_user.create_activity @picture, 'deleted'
       format.html { redirect_to album_pictures_url(@album) }
       format.json { head :no_content }
     end

@@ -10,12 +10,13 @@ class UserFriendshipsController < ApplicationController
 	def accept
 		@user_friendship = current_user.user_friendships.find(params[:id])
 		if @user_friendship.accept!
+			current_user.create_activity @user_friendship, 'accepted'
 			flash[:success] = "You are now friends with #{@user_friendship.user.first_name}!"
 		else
 			flash[:error] = "They think you're a creep."
 		end	
 		redirect_to user_friendships_path
-	end	
+	end
 	
 	def block
 		@user_friendship = current_user.user_friendships.find(params[:id])
