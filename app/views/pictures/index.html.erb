@@ -1,5 +1,7 @@
 <%= page_header do %>
+<% if signed_in? && current_user == @user %>
   <%= link_to 'Add Picture', new_album_picture_path(current_user, @album), class: 'btn pull-right' %>
+<% end %>
   <h1><%= @album.title %></h1>
 <% end %>
 
@@ -12,6 +14,11 @@
         <% if picture.caption? %><%= picture.caption %><br /><% end %>
 
         <%= link_to 'View full size', album_picture_path(@user, @album, picture) %>
+
+        <% if can_edit_picture?(picture) %>
+          | <%= link_to "Edit", edit_album_picture_path(@album, picture) %> 
+          | <%= link_to "Delete", album_picture_path(@album, picture), method: :delete, data: { confirm: "Are you sure?" } %>
+        <% end %> 
       </div>
     </div>
   </li>
