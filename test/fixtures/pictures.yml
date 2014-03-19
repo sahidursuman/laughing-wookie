@@ -1,13 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  album_id: 
-  user_id: 
+  album_id: vacation
+  user_id: jason
   caption: MyString
   description: MyText
 
-two:
-  album_id: 
-  user_id: 
-  caption: MyString
-  description: MyText
