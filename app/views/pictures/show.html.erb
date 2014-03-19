@@ -1,24 +1,15 @@
-<p id="notice"><%= notice %></p>
+<%= page_header do %>
+	<h1> Viewing Picture </h1>
+<% end %>
 
-<p>
-  <strong>Album:</strong>
-  <%= @picture.album %>
-</p>
+<%= image_tag(@picture.asset.url(:large), alt: @picture.caption, class: 'img-polaroid') %>
 
-<p>
-  <strong>User:</strong>
-  <%= @picture.user %>
-</p>
+<br />
 
-<p>
-  <strong>Caption:</strong>
-  <%= @picture.caption %>
-</p>
+<h3><%= @picture.caption %></h3>
+<p><%= @picture.description %></p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @picture.description %>
-</p>
+<%#= link_to 'Edit', edit_picture_path(@picture) %> |
+<%#= link_to 'Back', pictures_path %>
 
-<%= link_to 'Edit', edit_picture_path(@picture) %> |
-<%= link_to 'Back', pictures_path %>
+<%= link_to 'Back', album_pictures_path(@album) %>
