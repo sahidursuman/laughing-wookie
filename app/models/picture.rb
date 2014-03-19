@@ -7,4 +7,7 @@ class Picture < ActiveRecord::Base
   }
   validates_attachment_content_type :asset, :content_type => /\Aimage\/.*\Z/
 
+  def to_s
+  	caption? ? caption : "Picture"
+  end
 end
