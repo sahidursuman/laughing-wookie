@@ -20,10 +20,7 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @album }
-    end
+    redirect_to album_pictures_path(params[:id])
   end
 
   # GET /albums/new
@@ -62,7 +59,7 @@ class AlbumsController < ApplicationController
   def update
     respond_to do |format|
       if @album.update(album_params)
-        format.html { redirect_to @album, notice: 'Album was successfully updated.' }
+        format.html { redirect_to album_pictures_path(@album), notice: 'Album was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
