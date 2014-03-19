@@ -66,7 +66,7 @@ class UserFriendshipTest < ActiveSupport::TestCase
 
    context "#accept!" do
    		setup do
-   			@user_friendship = UserFriendship.request user: users(:jason), users(:mike)
+   			@user_friendship = UserFriendship.request users(:jason), users(:mike)
    		end
 
    		should "set the state to accepted" do
