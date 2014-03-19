@@ -44,10 +44,11 @@ class PicturesController < ApplicationController
   # POST /pictures.json
   def create
     @picture = @album.pictures.new(picture_params)
+    @picture.user = current_user
 
     respond_to do |format|
       if @picture.save
-        format.html { redirect_to @picture, notice: 'Picture was successfully created.' }
+        format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully created.' }
         format.json { render action: 'show', status: :created, location: @picture }
       else
         format.html { render action: 'new' }
@@ -108,6 +109,6 @@ class PicturesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params
-      params.require(:picture).permit(:album_id, :user_id, :caption, :description, :album, :current_user, :profile_name, :user, :album_thumbnail, :title)
+      params.require(:picture).permit(:album_id, :asset, :user_id, :caption, :description, :album, :current_user, :profile_name, :user, :album_thumbnail, :title)
     end
 end
