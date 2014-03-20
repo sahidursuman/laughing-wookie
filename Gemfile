@@ -38,6 +38,10 @@ gem 'paperclip'
 
 gem 'twitter-bootstrap-rails'
 
+gem 'will_paginate'
+
+gem 'bootstrap-will_paginate'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
