@@ -3,7 +3,8 @@
 <div class="row">
 	<div class="span8 offset2">
 		<h1>
-			<%= link_to image_tag(@status.user.gravatar_url) %>
+			<%= avatar_profile_link @status.user %>
+			<%#= link_to image_tag(@status.user.gravatar_url) %>
 			<%= @status.user.full_name %>
 		</h1>
 

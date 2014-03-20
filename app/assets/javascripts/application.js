@@ -61,5 +61,34 @@ var pollActivity = function() {
   	}
   })
 }
+/* Handlebars helper, because conditional logic in handlebars on a view is difficult */
+Handlebars.registerHelper('activityLink', function () {
+	
+	var link, path, html;
+	var activity = this;
+	/* make the dropdown prettier */
+	var linkText = activity.targetable_type.toLowerCase();
 
-//window.pollInterval = window.setInterval( pollActivity, 5000 );
+	switch (linkText) {
+		case "status":
+			path = Routes.status_path(activity.targetable_type);
+			break;
+		case "album":
+			path = Routes.album_path(activity.profile_name, activity.targetable_id);
+			break;
+		case "picture":
+			path = Routes.album_picture_path(activity.profile_name, activity.targetable.album);
+			break;
+		case "userfriendship":
+			path = Routes.profile_path(activity.profile_name);
+			break;	
+	}
+
+	/* what is contained in the activities dropdown */
+	html = "<li><a href='" + path + "'>" + this.profile_name + " " + this.action + " a " + linkText + ". </a></li>";
+	return new Handlebars.SafeString( html );
+});
+
+
+window.pollInterval = window.setInterval( pollActivity, 5000 );
+pollActivity();

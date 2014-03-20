@@ -1,6 +1,6 @@
 class StatusesController < ApplicationController
-  before_filter :authenticate_user!, only: [:new, :edit, :update, :destroy] 
-  before_action :set_status, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy] 
+  #before_action :set_status, only: [:show, :edit, :update, :destroy]
 
   #rescue_from ActiveModel::MassAssignmentSecurity::Error, with: :render_permission_error
   # GET /statuses
@@ -18,12 +18,17 @@ class StatusesController < ApplicationController
   # GET /statuses/1
   # GET /statuses/1.json
   def show
-   
+   @status = Status.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @status }
+    end
   end
 
   # GET /statuses/new
   def new
-    @status = Status.new
+    @status = current_user.statuses.new
     @status.build_document
 
     respond_to do |format|
@@ -95,9 +100,9 @@ class StatusesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_status
-      @status = Status.find(params[:id])
-    end
+    # def set_status
+    #   @status = Status.find(params[:id])
+    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
