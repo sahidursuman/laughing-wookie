@@ -10,7 +10,11 @@
 	<div class = "navbar navbar-fixed-top">
 		<div class = "navbar-inner">
 			<div class = "container">
-				<a href = "#" class = "brand">Treebook</a>
+        <% if user_signed_in? %>
+          <%= link_to "Treebook", activities_path, class: 'brand' %>
+        <% else %>
+				  <%= link_to "Treebook", root_path, class: 'brand' %>
+        <% end %>
 				<ul class = "nav">
 					<li><%= link_to "All Statuses", feed_path %></li>
           <% if user_signed_in? %>
