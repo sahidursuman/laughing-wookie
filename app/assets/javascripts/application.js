@@ -16,6 +16,35 @@
 //= require turbolinks
 //= require_tree .
 
+window.loadedActivities = [];
+
+/* Add activity into the array */
+var addActivity = function(item) {
+	var found = false;
+	for (var i = 0; i < window.loadedActivities.length; i++) {
+		if (window.loadedActivities[i].id == item.id) {
+			var found = true;
+		}
+	}
+
+	if (!found) {
+		window.loadedActivities.push(item);
+	}
+
+	return item;
+}
+/* Instantiate handlebars template */
+var renderActivities = function() {
+	var source = $('#activities-template').html();
+	var template = Handlebars.compile(source);
+	var html = template({activities: window.loadedActivities});
+	var $activityFeedLink = $('li#activity-feed');
+
+	$activityFeedLink.addClass('dropdown');
+	$activityFeedLink.html(html);
+	$activityFeedLink.find('a.dropdown-toggle').dropdown();
+}
+/* Look for activities since the last time you looked */
 var pollActivity = function() {
   $.ajax({
   	url: Routes.activities_path({format: 'json', since: window.lastFetch}),
@@ -23,9 +52,14 @@ var pollActivity = function() {
   	dataType: "json",
   	success: function(data) {
   		window.lastFetch = Math.floor((new Date).getTime() / 1000);
-  		console.log(data);
+  		if (data.length > 0) {		
+  			for (var i = 0; i < data.length; i++) {
+  				addActivity(data[i]);
+  			}
+  		renderActivities();
+  		}
   	}
   })
 }
 
-window.pollInterval = window.setInterval( pollActivity, 5000 );
+//window.pollInterval = window.setInterval( pollActivity, 5000 );
