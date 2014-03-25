@@ -71,7 +71,7 @@ Handlebars.registerHelper('activityLink', function () {
 
 	switch (linkText) {
 		case "status":
-			path = Routes.status_path(activity.targetable_type);
+			path = Routes.status_path(activity.targetable_id);
 			break;
 		case "album":
 			path = Routes.album_path(activity.profile_name, activity.targetable_id);
