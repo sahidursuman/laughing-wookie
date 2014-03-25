@@ -37,9 +37,9 @@ class UserFriendshipsController < ApplicationController
 			flash[:error] = "Oh dear ... that person seems to have disappeared. The request failed."
 		end
 	
-	rescue ActiveRecord::RecordNotFound
-		render file: 'public/404', status: :not_found
-	end
+	#rescue ActiveRecord::RecordNotFound
+	#	render file: 'public/404', status: :not_found
+	#end
 	
 	def create
 		if params[:user_friendship] && params[:user_friendship].has_key?(:friend_id)
