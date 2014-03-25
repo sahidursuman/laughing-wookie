@@ -103,9 +103,9 @@ Handlebars.registerHelper('activityLink', function () {
 			break;	
 	}
 
-	// if (activity.action === 'deleted') {
-	//	path = '#';
-	// }
+	if (activity.action === 'deleted') {
+		path = '#';
+	}
 
 	/* what is contained in the activities dropdown */
 	html = "<li><a href='" + path + "'>" + this.profile_name + " " + this.action + " a " + linkText + ". </a></li>";
