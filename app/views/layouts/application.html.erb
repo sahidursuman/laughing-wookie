@@ -48,11 +48,13 @@
 	</div>
 </body>
 <script id="activities-template" type="text/x-handlebars-template">
-  <a class="dropdown-toggle" href="#">Activity Feed</a>
+  <a class="dropdown-toggle" href="#">Activity Feed ({{count}})</a>
   <ul class="dropdown-menu">
   {{#each activities}}
    {{activityLink}}
   {{/each}}
+  <li class="divider"></li>
+  <li><a href="{{activityFeedLink}}">Activity Feed</a></li>
   </ul>
 </script>
 </html>
