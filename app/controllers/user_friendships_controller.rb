@@ -39,7 +39,7 @@ class UserFriendshipsController < ApplicationController
 	
 	#rescue ActiveRecord::RecordNotFound
 	#	render file: 'public/404', status: :not_found
-	#end
+	end
 	
 	def create
 		if params[:user_friendship] && params[:user_friendship].has_key?(:friend_id)
